@@ -1,3 +1,3 @@
 import './styles/main.css';
 
-document.querySelector('#app').textContent = 'Toy Drone';
+// document.querySelector('#app').textContent = 'Toy Drone';

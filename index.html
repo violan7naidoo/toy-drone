@@ -2,12 +2,20 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <!-- <link rel="icon" type="image/svg+xml" href="/favicon.svg" /> -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>toy-drone</title>
+    <title>Toy Drone</title>
   </head>
   <body>
-    <div id="app"></div>
+    <main class="app">
+      <section class="board-area" aria-label="Drone surface">
+        <div id="board" class="board"></div>
+      </section>
+
+      <section class="controls-area" aria-label="Controls">
+        <p>Controls go here</p>
+      </section>
+    </main>
+
     <script type="module" src="/src/main.js"></script>
   </body>
 </html>
