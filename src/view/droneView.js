@@ -1,5 +1,6 @@
 import { FACINGS } from '../config.js';
 import { flipY } from './coords.js';
+import { transitionEnd } from './motion.js';
 
 const DRONE_SVG = `
 <svg viewBox="0 0 100 100" aria-hidden="true">
@@ -48,21 +49,22 @@ export function createDroneView(layer) {
     drone.classList.remove('is-placing');
   }
 
-  function render(result) {
+    function render(result) {
     switch (result.type) {
       case 'PLACED':
         place(result);
-        break;
+        return Promise.resolve();
       case 'MOVED':
         moveTo(result.to);
-        break;
+        return transitionEnd(drone, 'translate');
       case 'TURNED':
         setAngle(angle + (result.direction === 'RIGHT' ? 90 : -90));
-        break;
+        return transitionEnd(drone, 'rotate');
       default:
-        break;
+        return Promise.resolve();
     }
   }
+
 
   return { render };
 }

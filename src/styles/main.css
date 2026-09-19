@@ -148,3 +148,9 @@ body {
     min-height: 0;
   }
 }
+
+@media (prefers-reduced-motion: reduce) {
+  .drone {
+    transition: none;
+  }
+}
