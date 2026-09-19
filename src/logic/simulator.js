@@ -1,4 +1,4 @@
-import { FACINGS } from '../config.js';
+import { FACINGS, STEPS } from '../config.js';
 import { isOnSurface } from './surface.js';
 
 export function createSimulator() {
@@ -20,6 +20,16 @@ export function createSimulator() {
     const { x, y, facing } = state;
     return { type: 'REPORTED', x, y, facing };
   }
+  function move() {
+    const { x, y, facing } = state;
+    const step = STEPS[facing];
+    const to = { x: x + step.x, y: y + step.y };
+
+    if (!isOnSurface(to.x, to.y)) return { type: 'BLOCKED', x, y, facing };
+
+    state = { ...state, x: to.x, y: to.y };
+    return { type: 'MOVED', from: { x, y }, to, facing };
+  }
 
   function execute(command) {
     const type = command?.type;
@@ -28,6 +38,8 @@ export function createSimulator() {
     if (!state.placed) return ignored(type, 'NOT_PLACED');
 
     switch (type) {
+      case 'MOVE':
+        return move();
       case 'REPORT':
         return report();
       default:

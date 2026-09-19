@@ -71,4 +71,44 @@ describe('simulator', () => {
       });
     });
   });
+    describe('MOVE', () => {
+    it.each([
+      ['NORTH', { x: 5, y: 6 }],
+      ['EAST', { x: 6, y: 5 }],
+      ['SOUTH', { x: 5, y: 4 }],
+      ['WEST', { x: 4, y: 5 }],
+    ])('moves one cell when facing %s', (facing, to) => {
+      sim.execute({ type: 'PLACE', x: 5, y: 5, facing });
+
+      expect(sim.execute({ type: 'MOVE' })).toEqual({
+        type: 'MOVED',
+        from: { x: 5, y: 5 },
+        to,
+        facing,
+      });
+      expect(sim.getState()).toEqual({ placed: true, ...to, facing });
+    });
+
+    it.each([
+      ['NORTH', 5, 9],
+      ['EAST', 9, 5],
+      ['SOUTH', 5, 0],
+      ['WEST', 0, 5],
+    ])('is blocked at the %s edge', (facing, x, y) => {
+      sim.execute({ type: 'PLACE', x, y, facing });
+
+      expect(sim.execute({ type: 'MOVE' })).toEqual({ type: 'BLOCKED', x, y, facing });
+      expect(sim.getState()).toEqual({ placed: true, x, y, facing });
+    });
+
+    it('still accepts a valid move after a blocked one', () => {
+      sim.execute({ type: 'PLACE', x: 0, y: 0, facing: 'SOUTH' });
+      expect(sim.execute({ type: 'MOVE' }).type).toBe('BLOCKED');
+
+      sim.execute({ type: 'PLACE', x: 0, y: 0, facing: 'NORTH' });
+      expect(sim.execute({ type: 'MOVE' }).type).toBe('MOVED');
+      expect(sim.getState()).toEqual({ placed: true, x: 0, y: 1, facing: 'NORTH' });
+    });
+  });
+
 });
