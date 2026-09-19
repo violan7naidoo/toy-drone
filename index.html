@@ -16,8 +16,23 @@
 
 
       <section class="controls-area" aria-label="Controls">
-        <p>Controls go here</p>
+        <p id="status" class="status" aria-live="polite">Tap a cell to place your drone</p>
+
+        <div id="pad" class="pad">
+          <button type="button" class="pad-button" data-command="LEFT" aria-label="Turn left">
+            <span aria-hidden="true">&#8634;</span>
+          </button>
+          <button type="button" class="pad-button" data-command="MOVE" aria-label="Move forward">
+            <span aria-hidden="true">&#9650;</span>
+          </button>
+          <button type="button" class="pad-button" data-command="RIGHT" aria-label="Turn right">
+            <span aria-hidden="true">&#8635;</span>
+          </button>
+          <button type="button" class="pad-button pad-button-wide" data-command="ATTACK">Attack</button>
+          <button type="button" class="pad-button pad-button-wide" data-command="REPORT">Report</button>
+        </div>
       </section>
+
     </main>
 
     <script type="module" src="/src/main.js"></script>

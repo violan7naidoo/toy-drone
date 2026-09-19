@@ -5,6 +5,7 @@ import { createSimulator } from './logic/simulator.js';
 import { createBoard } from './view/boardView.js';
 import { createDroneView } from './view/droneView.js';
 import { createCommandQueue } from './commandQueue.js';
+import { bindTouchControls } from './input/touchControls.js';
 
 const frame = document.querySelector('#board-frame');
 frame.style.setProperty('--size', BOARD_SIZE);
@@ -16,13 +17,16 @@ const droneView = createDroneView(document.querySelector('#board-layer'));
 
 const queue = createCommandQueue(async (command) => {
   const result = simulator.execute(command);
+  if (import.meta.env.DEV) console.log(command.type, result);
   await droneView.render(result);
   return result;
 });
 
+
 function dispatch(command) {
   return queue.push(command);
 }
+bindTouchControls(document.querySelector('#pad'), dispatch);
 
 if (import.meta.env.DEV) {
   window.dispatch = dispatch;
