@@ -6,6 +6,7 @@ import { createBoard } from './view/boardView.js';
 import { createDroneView } from './view/droneView.js';
 import { createCommandQueue } from './commandQueue.js';
 import { bindTouchControls } from './input/touchControls.js';
+import { bindKeyboard } from './input/keyboard.js';
 
 const frame = document.querySelector('#board-frame');
 frame.style.setProperty('--size', BOARD_SIZE);
@@ -27,6 +28,7 @@ function dispatch(command) {
   return queue.push(command);
 }
 bindTouchControls(document.querySelector('#pad'), dispatch);
+bindKeyboard(window, dispatch);
 
 if (import.meta.env.DEV) {
   window.dispatch = dispatch;
