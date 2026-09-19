@@ -199,5 +199,69 @@ describe('simulator', () => {
       expect(sim.getState()).toEqual({ placed: true, x, y, facing });
     });
   });
+  describe('the test sheet', () => {
+    const MOVE = { type: 'MOVE' };
+    const LEFT = { type: 'LEFT' };
+    const RIGHT = { type: 'RIGHT' };
+    const REPORT = { type: 'REPORT' };
+    const ATTACK = { type: 'ATTACK' };
+
+    function place(x, y, facing) {
+      return { type: 'PLACE', x, y, facing };
+    }
+
+    function run(commands) {
+      return commands.map((command) => sim.execute(command));
+    }
+
+    function lastReport(results) {
+      return results.filter((result) => result.type === 'REPORTED').at(-1);
+    }
+
+    it.each([
+      // The brief prints 0,0,SOUTH here, but by its own rules MOVE takes the drone to 0,1.
+      ['brief example a', [place(0, 0, 'NORTH'), MOVE, LEFT, LEFT, ATTACK, REPORT], '0,1,SOUTH'],
+      ['brief example b', [place(0, 0, 'NORTH'), LEFT, REPORT], '0,0,WEST'],
+      ['brief example c', [place(1, 2, 'EAST'), MOVE, MOVE, LEFT, MOVE, ATTACK, REPORT], '3,3,NORTH'],
+      ['blocked in the north-east corner', [place(9, 9, 'NORTH'), MOVE, REPORT], '9,9,NORTH'],
+      ['a valid move after a blocked one', [place(9, 9, 'NORTH'), MOVE, RIGHT, RIGHT, MOVE, REPORT], '9,8,SOUTH'],
+      ['blocked twice in the south-west corner', [place(0, 0, 'SOUTH'), MOVE, RIGHT, MOVE, REPORT], '0,0,WEST'],
+      ['an attack does not move the drone', [place(5, 7, 'NORTH'), ATTACK, REPORT], '5,7,NORTH'],
+      ['four right turns', [place(2, 2, 'EAST'), RIGHT, RIGHT, RIGHT, RIGHT, REPORT], '2,2,EAST'],
+      ['a second PLACE moves the drone', [place(1, 1, 'NORTH'), place(6, 4, 'WEST'), REPORT], '6,4,WEST'],
+      ['a bad PLACE after a good one', [place(1, 1, 'NORTH'), place(12, 4, 'WEST'), REPORT], '1,1,NORTH'],
+    ])('%s reports the right position', (name, commands, expected) => {
+      const report = lastReport(run(commands));
+
+      expect(`${report.x},${report.y},${report.facing}`).toBe(expected);
+    });
+
+    it.each([
+      ['commands before any PLACE', [MOVE, LEFT, REPORT]],
+      ['a PLACE off the surface', [place(10, 0, 'NORTH'), REPORT]],
+      ['a PLACE with a bad facing', [place(0, 0, 'UP'), REPORT]],
+    ])('%s are all ignored', (name, commands) => {
+      const results = run(commands);
+
+      expect(results.every((result) => result.type === 'IGNORED')).toBe(true);
+      expect(sim.getState().placed).toBe(false);
+    });
+
+    it('brief example a ignores the attack at the edge', () => {
+      const results = run([place(0, 0, 'NORTH'), MOVE, LEFT, LEFT, ATTACK]);
+
+      expect(results.at(-1)).toEqual({
+        type: 'IGNORED',
+        command: 'ATTACK',
+        reason: 'OUT_OF_RANGE',
+      });
+    });
+
+    it('brief example c explodes on 3,5', () => {
+      const results = run([place(1, 2, 'EAST'), MOVE, MOVE, LEFT, MOVE, ATTACK]);
+
+      expect(results.at(-1).target).toEqual({ x: 3, y: 5 });
+    });
+  });
 
 });
