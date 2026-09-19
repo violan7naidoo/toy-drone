@@ -7,6 +7,7 @@ import { createDroneView } from './view/droneView.js';
 import { createCommandQueue } from './commandQueue.js';
 import { bindTouchControls } from './input/touchControls.js';
 import { bindKeyboard } from './input/keyboard.js';
+import { bindPlacement } from './input/placement.js';
 
 const frame = document.querySelector('#board-frame');
 frame.style.setProperty('--size', BOARD_SIZE);
@@ -29,6 +30,15 @@ function dispatch(command) {
 }
 bindTouchControls(document.querySelector('#pad'), dispatch);
 bindKeyboard(window, dispatch);
+bindPlacement(
+  {
+    board: document.querySelector('#board'),
+    pad: document.querySelector('#pad'),
+    picker: document.querySelector('#facing-picker'),
+    targetLabel: document.querySelector('#facing-target'),
+  },
+  dispatch,
+);
 
 if (import.meta.env.DEV) {
   window.dispatch = dispatch;

@@ -18,6 +18,18 @@
       <section class="controls-area" aria-label="Controls">
         <p id="status" class="status" aria-live="polite">Tap a cell to place your drone</p>
 
+        <div id="facing-picker" class="facing-picker" hidden>
+          <p class="facing-title">Place on <strong id="facing-target"></strong> facing</p>
+          <div class="facing-buttons">
+            <button type="button" class="pad-button" data-facing="NORTH" aria-label="North">N</button>
+            <button type="button" class="pad-button" data-facing="EAST" aria-label="East">E</button>
+            <button type="button" class="pad-button" data-facing="SOUTH" aria-label="South">S</button>
+            <button type="button" class="pad-button" data-facing="WEST" aria-label="West">W</button>
+            <button type="button" class="pad-button" data-cancel aria-label="Cancel">&#10005;</button>
+          </div>
+        </div>
+
+
         <div id="pad" class="pad">
           <button type="button" class="pad-button" data-command="LEFT" aria-label="Turn left">
             <span aria-hidden="true">&#8634;</span>

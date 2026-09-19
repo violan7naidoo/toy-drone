@@ -18,6 +18,9 @@
 *::after {
   box-sizing: border-box;
 }
+[hidden] {
+  display: none !important;
+}
 
 body {
   margin: 0;
@@ -80,7 +83,22 @@ body {
   font-size: clamp(8px, 2.2cqmin, 16px);
   font-variant-numeric: tabular-nums;
   user-select: none;
+  cursor: pointer;
+  touch-action: manipulation;
 }
+
+.cell.is-selected {
+  outline: 2px solid var(--color-accent);
+  outline-offset: -2px;
+  color: var(--color-text);
+}
+
+@media (hover: hover) {
+  .cell:hover {
+    background: var(--color-line);
+  }
+}
+
 .piece {
   position: absolute;
   top: 0;
@@ -185,6 +203,27 @@ body {
 .pad-button:disabled {
   opacity: 0.4;
   cursor: not-allowed;
+}
+.facing-picker {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-height: 120px;
+}
+
+.facing-title {
+  margin: 0;
+}
+
+.facing-buttons {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.facing-buttons .pad-button {
+  grid-column: auto;
+  font-size: 1rem;
 }
 
 @media (orientation: landscape) {
