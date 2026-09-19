@@ -110,5 +110,50 @@ describe('simulator', () => {
       expect(sim.getState()).toEqual({ placed: true, x: 0, y: 1, facing: 'NORTH' });
     });
   });
+  describe('LEFT and RIGHT', () => {
+    it.each([
+      ['NORTH', 'EAST'],
+      ['EAST', 'SOUTH'],
+      ['SOUTH', 'WEST'],
+      ['WEST', 'NORTH'],
+    ])('RIGHT turns %s to %s', (from, to) => {
+      sim.execute({ type: 'PLACE', x: 2, y: 2, facing: from });
+
+      expect(sim.execute({ type: 'RIGHT' })).toEqual({
+        type: 'TURNED',
+        direction: 'RIGHT',
+        x: 2,
+        y: 2,
+        facing: to,
+      });
+    });
+
+    it.each([
+      ['NORTH', 'WEST'],
+      ['WEST', 'SOUTH'],
+      ['SOUTH', 'EAST'],
+      ['EAST', 'NORTH'],
+    ])('LEFT turns %s to %s', (from, to) => {
+      sim.execute({ type: 'PLACE', x: 2, y: 2, facing: from });
+
+      expect(sim.execute({ type: 'LEFT' })).toEqual({
+        type: 'TURNED',
+        direction: 'LEFT',
+        x: 2,
+        y: 2,
+        facing: to,
+      });
+    });
+
+    it.each(['LEFT', 'RIGHT'])('four %s turns come back to the start', (type) => {
+      sim.execute({ type: 'PLACE', x: 2, y: 2, facing: 'EAST' });
+
+      for (let i = 0; i < 4; i += 1) {
+        sim.execute({ type });
+      }
+
+      expect(sim.getState()).toEqual({ placed: true, x: 2, y: 2, facing: 'EAST' });
+    });
+  });
 
 });

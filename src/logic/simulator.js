@@ -31,6 +31,15 @@ export function createSimulator() {
     return { type: 'MOVED', from: { x, y }, to, facing };
   }
 
+    function turn(direction) {
+    const offset = direction === 'RIGHT' ? 1 : FACINGS.length - 1;
+    const index = (FACINGS.indexOf(state.facing) + offset) % FACINGS.length;
+    state = { ...state, facing: FACINGS[index] };
+    const { x, y, facing } = state;
+    return { type: 'TURNED', direction, x, y, facing };
+  }
+
+
   function execute(command) {
     const type = command?.type;
 
@@ -40,6 +49,9 @@ export function createSimulator() {
     switch (type) {
       case 'MOVE':
         return move();
+      case 'LEFT':
+      case 'RIGHT':
+        return turn(type);  
       case 'REPORT':
         return report();
       default:
