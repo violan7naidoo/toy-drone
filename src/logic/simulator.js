@@ -1,4 +1,4 @@
-import { FACINGS, STEPS } from '../config.js';
+import { ATTACK_RANGE, FACINGS, STEPS } from '../config.js';
 import { isOnSurface } from './surface.js';
 
 export function createSimulator() {
@@ -39,6 +39,18 @@ export function createSimulator() {
     return { type: 'TURNED', direction, x, y, facing };
   }
 
+  function attack() {
+    const { x, y, facing } = state;
+    const step = STEPS[facing];
+    const target = {
+      x: x + step.x * ATTACK_RANGE,
+      y: y + step.y * ATTACK_RANGE,
+    };
+
+    if (!isOnSurface(target.x, target.y)) return ignored('ATTACK', 'OUT_OF_RANGE');
+
+    return { type: 'ATTACKED', from: { x, y }, target, facing };
+  }
 
   function execute(command) {
     const type = command?.type;
@@ -54,6 +66,8 @@ export function createSimulator() {
         return turn(type);  
       case 'REPORT':
         return report();
+      case 'ATTACK':
+        return attack();
       default:
         return ignored(type, 'UNKNOWN_COMMAND');
     }

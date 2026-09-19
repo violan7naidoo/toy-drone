@@ -155,5 +155,49 @@ describe('simulator', () => {
       expect(sim.getState()).toEqual({ placed: true, x: 2, y: 2, facing: 'EAST' });
     });
   });
+  describe('ATTACK', () => {
+    it('hits the cell two ahead and leaves the drone where it is', () => {
+      sim.execute({ type: 'PLACE', x: 3, y: 3, facing: 'NORTH' });
+
+      expect(sim.execute({ type: 'ATTACK' })).toEqual({
+        type: 'ATTACKED',
+        from: { x: 3, y: 3 },
+        target: { x: 3, y: 5 },
+        facing: 'NORTH',
+      });
+      expect(sim.getState()).toEqual({ placed: true, x: 3, y: 3, facing: 'NORTH' });
+    });
+
+    it.each([
+      ['NORTH', 5, 7, { x: 5, y: 9 }],
+      ['EAST', 7, 5, { x: 9, y: 5 }],
+      ['SOUTH', 5, 2, { x: 5, y: 0 }],
+      ['WEST', 2, 5, { x: 0, y: 5 }],
+    ])('can reach the last cell when facing %s', (facing, x, y, target) => {
+      sim.execute({ type: 'PLACE', x, y, facing });
+
+      expect(sim.execute({ type: 'ATTACK' })).toMatchObject({ type: 'ATTACKED', target });
+    });
+
+    it.each([
+      ['NORTH', 5, 8],
+      ['NORTH', 5, 9],
+      ['EAST', 8, 5],
+      ['EAST', 9, 5],
+      ['SOUTH', 5, 1],
+      ['SOUTH', 5, 0],
+      ['WEST', 1, 5],
+      ['WEST', 0, 5],
+    ])('is ignored facing %s from %i,%i', (facing, x, y) => {
+      sim.execute({ type: 'PLACE', x, y, facing });
+
+      expect(sim.execute({ type: 'ATTACK' })).toEqual({
+        type: 'IGNORED',
+        command: 'ATTACK',
+        reason: 'OUT_OF_RANGE',
+      });
+      expect(sim.getState()).toEqual({ placed: true, x, y, facing });
+    });
+  });
 
 });
