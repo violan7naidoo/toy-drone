@@ -24,6 +24,14 @@ export function createDroneView(layer) {
   drone.innerHTML = DRONE_SVG;
   layer.append(drone);
 
+    let angle = 0;
+
+  function setAngle(value) {
+    angle = value;
+    drone.style.setProperty('--angle', angle);
+  }
+
+
   function moveTo({ x, y }) {
     drone.style.setProperty('--col', x);
     drone.style.setProperty('--row', flipY(y));
@@ -31,7 +39,7 @@ export function createDroneView(layer) {
 
   function place(result) {
     drone.classList.add('is-placing');
-    drone.style.setProperty('--angle', FACINGS.indexOf(result.facing) * 90);
+    setAngle(FACINGS.indexOf(result.facing) * 90);
     moveTo(result);
     drone.hidden = false;
 
@@ -47,6 +55,9 @@ export function createDroneView(layer) {
         break;
       case 'MOVED':
         moveTo(result.to);
+        break;
+      case 'TURNED':
+        setAngle(angle + (result.direction === 'RIGHT' ? 90 : -90));
         break;
       default:
         break;
