@@ -1,5 +1,5 @@
 import './styles/main.css';
-import { BOARD_SIZE, DEFAULT_VIEW, SHOW_COORDINATES } from './config.js';
+import { BOARD_SIZE, DEFAULT_VIEW, SHOT_MS, SHOW_COORDINATES } from './config.js';
 import { createCommandQueue } from './commandQueue.js';
 import { parseScript } from './logic/parser.js';
 import { createSimulator } from './logic/simulator.js';
@@ -7,6 +7,7 @@ import { createBoard } from './view/boardView.js';
 import { createDroneView } from './view/droneView.js';
 import { createEffectsView } from './view/effectsView.js';
 import { createHudView } from './view/hudView.js';
+import { createSoundView } from './view/soundView.js';
 import { bindConsole } from './input/console.js';
 import { bindKeyboard } from './input/keyboard.js';
 import { bindPlacement } from './input/placement.js';
@@ -16,12 +17,14 @@ import { bindTouchControls } from './input/touchControls.js';
 const $ = (selector) => document.querySelector(selector);
 
 $('#board-frame').style.setProperty('--size', BOARD_SIZE);
+$('#board-frame').style.setProperty('--shot-time', `${SHOT_MS}ms`);
 createBoard($('#board'));
 
 const simulator = createSimulator();
 const droneView = createDroneView($('#board-layer'));
 const effectsView = createEffectsView($('#board-layer'));
 const hudView = createHudView({ status: $('#status'), pad: $('#pad') });
+const soundView = createSoundView();
 
 const queue = createCommandQueue(async (command) => {
   const result = simulator.execute(command);
@@ -31,6 +34,7 @@ const queue = createCommandQueue(async (command) => {
     droneView.render(result),
     effectsView.render(result),
     hudView.render(result, simulator.getState()),
+    soundView.render(result),
   ]);
 
   return result;
@@ -69,6 +73,15 @@ bindToggle({
   key: 'view',
   states: ['3d', 'top'],
   initial: DEFAULT_VIEW,
+});
+bindToggle({
+  button: $('#sound-toggle'),
+  target: document.documentElement,
+  attribute: 'sound',
+  key: 'sound',
+  states: ['on', 'off'],
+  initial: 'on',
+  onChange: (state) => soundView.setMuted(state === 'off'),
 });
 bindToggle({
   button: $('#coords-toggle'),

@@ -12,3 +12,5 @@ export const STEPS = {
 };
 
 export const ATTACK_RANGE = 2;
+
+export const SHOT_MS = 220;
