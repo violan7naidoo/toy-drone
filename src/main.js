@@ -1,5 +1,5 @@
 import './styles/main.css';
-import { BOARD_SIZE, SHOW_COORDINATES } from './config.js';
+import { BOARD_SIZE, DEFAULT_VIEW, SHOW_COORDINATES } from './config.js';
 import { createCommandQueue } from './commandQueue.js';
 import { parseScript } from './logic/parser.js';
 import { createSimulator } from './logic/simulator.js';
@@ -62,6 +62,14 @@ bindConsole(
   dispatch,
 );
 
+bindToggle({
+  button: $('#view-toggle'),
+  target: $('#board-area'),
+  attribute: 'view',
+  key: 'view',
+  states: ['3d', 'top'],
+  initial: DEFAULT_VIEW,
+});
 bindToggle({
   button: $('#coords-toggle'),
   target: $('#board-frame'),

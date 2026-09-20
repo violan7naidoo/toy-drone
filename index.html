@@ -12,6 +12,16 @@
         <div class="hud-tools">
           <button
             type="button"
+            id="view-toggle"
+            class="tool-button"
+            aria-pressed="true"
+            aria-label="3D view"
+            title="Switch between 3D and top view"
+          >
+            3D
+          </button>
+          <button
+            type="button"
             id="coords-toggle"
             class="tool-button"
             aria-pressed="false"
@@ -34,7 +44,7 @@
         </div>
       </header>
 
-      <section class="board-area" aria-label="Drone surface">
+      <section id="board-area" class="board-area" aria-label="Drone surface">
         <div id="board-frame" class="board-frame">
           <div id="board" class="board"></div>
           <div id="board-layer" class="board-layer"></div>
