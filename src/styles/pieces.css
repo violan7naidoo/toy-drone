@@ -11,6 +11,7 @@
 
 .drone {
   rotate: calc(var(--angle) * 1deg);
+  transform-style: preserve-3d;
   transition:
     translate var(--move-time) ease-in-out,
     rotate var(--turn-time) ease-in-out;
@@ -20,10 +21,41 @@
   transition: none;
 }
 
+.drone-beacon {
+  position: absolute;
+  inset: 6%;
+  border: 1px solid color-mix(in srgb, var(--color-accent) 75%, transparent);
+  border-radius: 50%;
+  background: radial-gradient(
+    circle,
+    color-mix(in srgb, var(--color-accent) 40%, transparent) 0%,
+    color-mix(in srgb, var(--color-accent) 10%, transparent) 55%,
+    transparent 72%
+  );
+  box-shadow: 0 0 1.4cqmin color-mix(in srgb, var(--color-accent) 50%, transparent);
+  animation: beacon-pulse var(--bob-time) ease-in-out infinite alternate;
+}
+
+.drone-craft {
+  position: absolute;
+  inset: 0;
+  transform: translateZ(var(--hover));
+  transform-style: preserve-3d;
+  animation: bob var(--bob-time) ease-in-out infinite alternate;
+}
+
+.drone-tilt {
+  width: 100%;
+  height: 100%;
+  transform: rotateX(calc(var(--lean, 0) * 18deg)) rotateY(calc(var(--bank, 0) * 16deg));
+  transition: transform 200ms ease-out;
+}
+
 .drone svg {
   display: block;
   width: 100%;
   height: 100%;
+  overflow: visible;
 }
 
 .drone-arms line {
@@ -32,18 +64,57 @@
   stroke-linecap: round;
 }
 
-.drone-rotors circle {
-  fill: none;
+.rotor-ring {
+  fill: color-mix(in srgb, var(--color-accent) 12%, transparent);
   stroke: var(--color-accent);
-  stroke-width: 4;
+  stroke-width: 3;
 }
 
-.drone-body {
+.rotor-blades {
+  fill: color-mix(in srgb, var(--color-text) 70%, transparent);
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: rotor-spin var(--rotor-time) linear infinite;
+}
+
+.rotor:nth-of-type(even) .rotor-blades {
+  animation-direction: reverse;
+}
+
+.drone-hull {
   fill: var(--color-text);
 }
 
 .drone-nose {
   fill: var(--color-accent);
+}
+
+@keyframes bob {
+  from {
+    transform: translateZ(calc(var(--hover) * 0.8)) scale(0.98);
+  }
+
+  to {
+    transform: translateZ(calc(var(--hover) * 1.2)) scale(1.03);
+  }
+}
+
+@keyframes beacon-pulse {
+  from {
+    scale: 1;
+    opacity: 0.95;
+  }
+
+  to {
+    scale: 0.86;
+    opacity: 0.6;
+  }
+}
+
+@keyframes rotor-spin {
+  to {
+    transform: rotate(1turn);
+  }
 }
 
 .shot {

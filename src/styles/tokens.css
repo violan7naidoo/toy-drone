@@ -25,6 +25,10 @@
   --shot-time: 220ms;
   --scan-time: 7s;
 
+  --hover: 3cqmin;
+  --bob-time: 2.6s;
+  --rotor-time: 260ms;
+
   --tilt: 40deg;
   --tilt-scale: 0.93;
   --view-depth: 3.6;
