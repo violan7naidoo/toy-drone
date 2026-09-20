@@ -1,5 +1,5 @@
 import './styles/main.css';
-import { BOARD_SIZE } from './config.js';
+import { BOARD_SIZE, SHOW_COORDINATES } from './config.js';
 import { createCommandQueue } from './commandQueue.js';
 import { parseScript } from './logic/parser.js';
 import { createSimulator } from './logic/simulator.js';
@@ -10,6 +10,7 @@ import { createHudView } from './view/hudView.js';
 import { bindConsole } from './input/console.js';
 import { bindKeyboard } from './input/keyboard.js';
 import { bindPlacement } from './input/placement.js';
+import { bindToggle } from './input/preferences.js';
 import { bindTouchControls } from './input/touchControls.js';
 
 const $ = (selector) => document.querySelector(selector);
@@ -60,6 +61,15 @@ bindConsole(
   },
   dispatch,
 );
+
+bindToggle({
+  button: $('#coords-toggle'),
+  target: $('#board-frame'),
+  attribute: 'coords',
+  key: 'coords',
+  states: ['on', 'off'],
+  initial: SHOW_COORDINATES ? 'on' : 'off',
+});
 
 if (import.meta.env.DEV) {
   window.dispatch = dispatch;

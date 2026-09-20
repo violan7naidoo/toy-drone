@@ -10,7 +10,7 @@
 
 body {
   margin: 0;
-  background: var(--color-bg);
+  background: radial-gradient(ellipse at 50% 35%, var(--color-bg-glow) 0%, var(--color-bg) 70%) fixed;
   color: var(--color-text);
   font-family: system-ui, sans-serif;
 }

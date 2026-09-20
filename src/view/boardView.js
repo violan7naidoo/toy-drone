@@ -1,4 +1,4 @@
-import { BOARD_SIZE, SHOW_COORDINATES } from '../config.js';
+import { BOARD_SIZE } from '../config.js';
 import { flipY } from './coords.js';
 
 export function createBoard(container) {
@@ -9,14 +9,15 @@ export function createBoard(container) {
       const x = col;
       const y = flipY(row);
 
+      const label = document.createElement('span');
+      label.className = 'cell-label';
+      label.textContent = `${x},${y}`;
+
       const cell = document.createElement('div');
       cell.className = 'cell';
       cell.dataset.x = x;
       cell.dataset.y = y;
-
-      if (SHOW_COORDINATES) {
-        cell.textContent = `${x},${y}`;
-      }
+      cell.append(label);
 
       cells.append(cell);
     }

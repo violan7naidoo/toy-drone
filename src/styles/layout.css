@@ -36,8 +36,10 @@
   flex-direction: column;
   gap: var(--gap-tight);
   padding: var(--gap-tight);
-  background: var(--color-surface);
+  border: 1px solid color-mix(in srgb, var(--color-accent) 25%, transparent);
   border-radius: var(--radius);
+  background: color-mix(in srgb, var(--color-surface) 72%, transparent);
+  backdrop-filter: blur(6px);
 }
 
 @media (orientation: landscape) {

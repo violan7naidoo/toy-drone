@@ -1,5 +1,5 @@
 const PROMPT = 'Tap a cell to place your drone';
-const READY = 'Drone placed. Use the buttons or the arrow keys.';
+const READY = 'Drone ready';
 
 export function createHudView({ status, pad }) {
   const buttons = pad.querySelectorAll('[data-command]');

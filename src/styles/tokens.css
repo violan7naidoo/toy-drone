@@ -1,11 +1,19 @@
 :root {
   --color-bg: #050b14;
+  --color-bg-glow: #0e2a42;
   --color-surface: #0a1626;
   --color-line: #1d5f7a;
   --color-text: #d9f4ff;
   --color-text-muted: #6f9fb5;
   --color-accent: #39d5ff;
   --color-hot: #ff5fd2;
+
+  --color-cell-far: #071220;
+  --color-cell-near: #0b1b2e;
+  --color-grid-far: color-mix(in srgb, var(--color-accent) 30%, transparent);
+  --color-grid-near: color-mix(in srgb, var(--color-accent) 90%, transparent);
+  --glow-floor: 0 0 70px color-mix(in srgb, var(--color-accent) 35%, transparent);
+  --shadow-floor: 0 40px 80px rgb(0 0 0 / 0.6);
 
   --gap: 16px;
   --gap-tight: 8px;
@@ -15,6 +23,19 @@
   --move-time: 320ms;
   --turn-time: 260ms;
   --shot-time: 220ms;
+  --scan-time: 7s;
+
+  --tilt: 40deg;
+  --tilt-scale: 0.93;
+  --view-depth: 3.6;
 
   color-scheme: dark;
+}
+
+@media (orientation: landscape) {
+  :root {
+    --tilt: 50deg;
+    --tilt-scale: 0.88;
+    --view-depth: 2.2;
+  }
 }

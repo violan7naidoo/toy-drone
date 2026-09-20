@@ -1,5 +1,6 @@
 export const BOARD_SIZE = 10;
-export const SHOW_COORDINATES = true;
+export const SHOW_COORDINATES = false;
+export const DEFAULT_VIEW = '3d';
 
 export const FACINGS = ['NORTH', 'EAST', 'SOUTH', 'WEST'];
 
