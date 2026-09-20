@@ -17,3 +17,10 @@ export function transitionEnd(element, property) {
     element.addEventListener('transitionend', done);
   });
 }
+
+export function play(element, keyframes, options) {
+  if (reducedMotion.matches) return Promise.resolve();
+
+  return element.animate(keyframes, options).finished;
+}
+

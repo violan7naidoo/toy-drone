@@ -10,6 +10,8 @@
   --cell-gap: 2px;
   --move-time: 320ms;
   --turn-time: 260ms;
+  --shot-time: 220ms;
+  --color-hot: #ff9f43;
   color-scheme: dark;
 }
 
@@ -146,6 +148,32 @@ body {
 .drone-nose {
   fill: var(--color-accent);
 }
+.shot {
+  background: radial-gradient(circle, #fff 0 8%, var(--color-hot) 9% 20%, transparent 22%);
+  transition: translate var(--shot-time) ease-in;
+}
+
+.blast {
+  border-radius: 50%;
+  background: radial-gradient(circle, #fff 0%, var(--color-hot) 35%, transparent 70%);
+}
+
+.ember {
+  border-radius: 50%;
+  background: radial-gradient(circle, var(--color-hot) 0%, transparent 65%);
+  animation: ember-fade var(--ember-time) ease-in forwards;
+}
+
+@keyframes ember-fade {
+  from {
+    opacity: 0.8;
+  }
+
+  to {
+    opacity: 0;
+  }
+}
+
 
 .controls-area {
   flex: 0 0 auto;
@@ -279,7 +307,14 @@ body {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .drone {
+  .drone,
+  .shot {
     transition: none;
   }
+
+  .ember {
+    animation: none;
+    opacity: 0.6;
+  }
 }
+

@@ -10,6 +10,7 @@ import { bindKeyboard } from './input/keyboard.js';
 import { bindPlacement } from './input/placement.js';
 import { bindConsole } from './input/console.js';
 import { createHudView } from './view/hudView.js';
+import { createEffectsView } from './view/effectsView.js';
 
 const frame = document.querySelector('#board-frame');
 frame.style.setProperty('--size', BOARD_SIZE);
@@ -18,6 +19,7 @@ createBoard(document.querySelector('#board'));
 
 const simulator = createSimulator();
 const droneView = createDroneView(document.querySelector('#board-layer'));
+const effectsView = createEffectsView(document.querySelector('#board-layer'));
 const hudView = createHudView({
   status: document.querySelector('#status'),
   pad: document.querySelector('#pad'),
@@ -29,8 +31,10 @@ const queue = createCommandQueue(async (command) => {
 
   await Promise.all([
     droneView.render(result),
+    effectsView.render(result),
     hudView.render(result, simulator.getState()),
   ]);
+
 
   return result;
 });
