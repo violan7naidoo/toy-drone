@@ -109,6 +109,29 @@ export function createDroneView(layer) {
     setLean(0, 0);
   }
 
+  function nudge(keyframes, duration) {
+    return play(drone, keyframes, { duration, easing: 'ease-out' });
+  }
+
+  // transform is applied after the rotate property, so "up" here always means "toward the nose".
+  const bump = () =>
+    nudge([{ transform: 'translateY(0)' }, { transform: 'translateY(-24%)' }, { transform: 'translateY(0)' }], 240);
+
+  const recoil = () =>
+    nudge([{ transform: 'translateY(0)' }, { transform: 'translateY(14%)' }, { transform: 'translateY(0)' }], 220);
+
+  const shake = () =>
+    nudge(
+      [
+        { transform: 'translateX(0)' },
+        { transform: 'translateX(-11%)' },
+        { transform: 'translateX(11%)' },
+        { transform: 'translateX(-6%)' },
+        { transform: 'translateX(0)' },
+      ],
+      300,
+    );
+
   function render(result) {
     switch (result.type) {
       case 'PLACED':
@@ -117,6 +140,12 @@ export function createDroneView(layer) {
         return glide(result.to);
       case 'TURNED':
         return turn(result.direction);
+      case 'ATTACKED':
+        return recoil();
+      case 'BLOCKED':
+        return bump();
+      case 'IGNORED':
+        return drone.hidden ? Promise.resolve() : shake();
       default:
         return Promise.resolve();
     }

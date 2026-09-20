@@ -5,6 +5,17 @@
   color: var(--color-text-muted);
 }
 
+.status[data-tone='warn'] {
+  color: var(--color-hot);
+}
+
+.status[data-tone='report'] {
+  color: var(--color-accent);
+  font-family: ui-monospace, Consolas, monospace;
+  font-size: 1.15rem;
+  letter-spacing: 0.04em;
+}
+
 .hud-tools {
   display: flex;
   gap: var(--gap-tight);

@@ -22,7 +22,7 @@ createBoard($('#board'));
 
 const simulator = createSimulator();
 const droneView = createDroneView($('#board-layer'));
-const effectsView = createEffectsView($('#board-layer'));
+const effectsView = createEffectsView($('#board-layer'), $('#board-frame'));
 const hudView = createHudView({ status: $('#status'), pad: $('#pad') });
 const soundView = createSoundView();
 

@@ -24,3 +24,10 @@ export function play(element, keyframes, options) {
   return element.animate(keyframes, options).finished;
 }
 
+// For effects that carry information (a barrier, a burst): with reduced motion they do not move,
+// but they still stay on screen for the same time, so the feedback is not lost.
+export function flare(element, keyframes, options) {
+  if (!reducedMotion.matches) return element.animate(keyframes, options).finished;
+
+  return new Promise((resolve) => setTimeout(resolve, options.duration));
+}
