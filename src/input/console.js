@@ -9,7 +9,7 @@ function describe(entries, unknown) {
   return `Ran ${entries.length} command${entries.length === 1 ? '' : 's'}`;
 }
 
-export function bindConsole({ form, input, output }, dispatch) {
+export function bindConsole({ form, input, output, toggle, panel }, dispatch) {
   function run() {
     const entries = parseScript(input.value);
     if (entries.length === 0) return;
@@ -24,6 +24,12 @@ export function bindConsole({ form, input, output }, dispatch) {
     input.value = '';
   }
 
+  function setOpen(open) {
+    panel.dataset.console = open ? 'open' : 'closed';
+    toggle.setAttribute('aria-expanded', String(open));
+    if (open) input.focus();
+  }
+
   form.addEventListener('submit', (event) => {
     event.preventDefault();
     run();
@@ -34,5 +40,11 @@ export function bindConsole({ form, input, output }, dispatch) {
       event.preventDefault();
       form.requestSubmit();
     }
+
+    if (event.key === 'Escape') setOpen(false);
+  });
+
+  toggle.addEventListener('click', () => {
+    setOpen(panel.dataset.console !== 'open');
   });
 }

@@ -1,29 +1,26 @@
 import './styles/main.css';
 import { BOARD_SIZE } from './config.js';
+import { createCommandQueue } from './commandQueue.js';
 import { parseScript } from './logic/parser.js';
 import { createSimulator } from './logic/simulator.js';
 import { createBoard } from './view/boardView.js';
 import { createDroneView } from './view/droneView.js';
-import { createCommandQueue } from './commandQueue.js';
-import { bindTouchControls } from './input/touchControls.js';
+import { createEffectsView } from './view/effectsView.js';
+import { createHudView } from './view/hudView.js';
+import { bindConsole } from './input/console.js';
 import { bindKeyboard } from './input/keyboard.js';
 import { bindPlacement } from './input/placement.js';
-import { bindConsole } from './input/console.js';
-import { createHudView } from './view/hudView.js';
-import { createEffectsView } from './view/effectsView.js';
+import { bindTouchControls } from './input/touchControls.js';
 
-const frame = document.querySelector('#board-frame');
-frame.style.setProperty('--size', BOARD_SIZE);
+const $ = (selector) => document.querySelector(selector);
 
-createBoard(document.querySelector('#board'));
+$('#board-frame').style.setProperty('--size', BOARD_SIZE);
+createBoard($('#board'));
 
 const simulator = createSimulator();
-const droneView = createDroneView(document.querySelector('#board-layer'));
-const effectsView = createEffectsView(document.querySelector('#board-layer'));
-const hudView = createHudView({
-  status: document.querySelector('#status'),
-  pad: document.querySelector('#pad'),
-});
+const droneView = createDroneView($('#board-layer'));
+const effectsView = createEffectsView($('#board-layer'));
+const hudView = createHudView({ status: $('#status'), pad: $('#pad') });
 
 const queue = createCommandQueue(async (command) => {
   const result = simulator.execute(command);
@@ -35,36 +32,34 @@ const queue = createCommandQueue(async (command) => {
     hudView.render(result, simulator.getState()),
   ]);
 
-
   return result;
 });
-
-
 
 function dispatch(command) {
   return queue.push(command);
 }
-bindTouchControls(document.querySelector('#pad'), dispatch);
+
+bindTouchControls($('#pad'), dispatch);
 bindKeyboard(window, dispatch);
 bindPlacement(
   {
-    board: document.querySelector('#board'),
-    pad: document.querySelector('#pad'),
-    picker: document.querySelector('#facing-picker'),
-    targetLabel: document.querySelector('#facing-target'),
+    board: $('#board'),
+    pad: $('#pad'),
+    picker: $('#facing-picker'),
+    targetLabel: $('#facing-target'),
   },
   dispatch,
 );
-
 bindConsole(
   {
-    form: document.querySelector('#console'),
-    input: document.querySelector('#console-input'),
-    output: document.querySelector('#console-output'),
+    form: $('#console'),
+    input: $('#console-input'),
+    output: $('#console-output'),
+    toggle: $('#console-toggle'),
+    panel: $('#controls'),
   },
   dispatch,
 );
-
 
 if (import.meta.env.DEV) {
   window.dispatch = dispatch;

@@ -7,6 +7,21 @@
   </head>
   <body>
     <main class="app">
+      <header class="hud-bar">
+        <p id="status" class="status" aria-live="polite">Tap a cell to place your drone</p>
+        <div class="hud-tools">
+          <button
+            type="button"
+            id="console-toggle"
+            class="tool-button console-toggle"
+            aria-expanded="false"
+            aria-controls="console"
+          >
+            Commands
+          </button>
+        </div>
+      </header>
+
       <section class="board-area" aria-label="Drone surface">
         <div id="board-frame" class="board-frame">
           <div id="board" class="board"></div>
@@ -14,12 +29,12 @@
         </div>
       </section>
 
-
-      <section class="controls-area" aria-label="Controls">
-        <p id="status" class="status" aria-live="polite">Tap a cell to place your drone</p>
-
+      <section id="controls" class="controls-area" aria-label="Controls">
         <div id="facing-picker" class="facing-picker" hidden>
-          <p class="facing-title">Place on <strong id="facing-target"></strong> facing</p>
+          <p class="facing-title">
+            <span class="facing-words">Place on </span><strong id="facing-target"></strong
+            ><span class="facing-words"> facing</span>
+          </p>
           <div class="facing-buttons">
             <button type="button" class="pad-button" data-facing="NORTH" aria-label="North">N</button>
             <button type="button" class="pad-button" data-facing="EAST" aria-label="East">E</button>
@@ -28,7 +43,6 @@
             <button type="button" class="pad-button" data-cancel aria-label="Cancel">&#10005;</button>
           </div>
         </div>
-
 
         <div id="pad" class="pad">
           <button type="button" class="pad-button" data-command="LEFT" aria-label="Turn left">
@@ -43,7 +57,8 @@
           <button type="button" class="pad-button pad-button-wide" data-command="ATTACK">Attack</button>
           <button type="button" class="pad-button pad-button-wide" data-command="REPORT">Report</button>
         </div>
-                <form id="console" class="console">
+
+        <form id="console" class="console">
           <label class="console-label" for="console-input">Commands</label>
           <textarea
             id="console-input"
@@ -57,9 +72,7 @@
           <button type="submit" class="pad-button console-run">Run</button>
           <p id="console-output" class="console-output" aria-live="polite"></p>
         </form>
-
       </section>
-
     </main>
 
     <script type="module" src="/src/main.js"></script>

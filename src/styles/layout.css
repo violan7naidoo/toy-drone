@@ -1,39 +1,58 @@
 .app {
   height: 100dvh;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  grid-template-rows: auto minmax(0, 1fr) auto;
+  grid-template-areas:
+    'hud'
+    'board'
+    'controls';
+  gap: var(--gap-tight);
+  padding: var(--gap-tight);
+}
+
+.hud-bar {
+  grid-area: hud;
   display: flex;
-  flex-direction: column;
-  gap: var(--gap);
-  padding: var(--gap);
+  align-items: center;
+  gap: var(--gap-tight);
+  min-height: 44px;
 }
 
 .board-area {
-  flex: 1;
+  grid-area: board;
   min-width: 0;
   min-height: 0;
   display: grid;
   place-items: center;
-  padding: var(--gap);
   container-type: size;
-  background: var(--color-surface);
-  border-radius: var(--radius);
 }
 
 .controls-area {
-  flex: 0 0 auto;
+  grid-area: controls;
+  position: relative;
+  z-index: 2;
   display: flex;
   flex-direction: column;
-  gap: var(--gap);
-  padding: var(--gap);
+  gap: var(--gap-tight);
+  padding: var(--gap-tight);
   background: var(--color-surface);
   border-radius: var(--radius);
 }
 
 @media (orientation: landscape) {
   .app {
-    flex-direction: row;
+    grid-template-columns: minmax(0, 1fr) min(320px, 35vw);
+    grid-template-rows: auto minmax(0, 1fr);
+    grid-template-areas:
+      'board hud'
+      'board controls';
+    gap: var(--gap);
+    padding: var(--gap);
   }
 
   .controls-area {
-    flex: 0 0 min(320px, 35vw);
+    gap: var(--gap);
+    padding: var(--gap);
   }
 }
