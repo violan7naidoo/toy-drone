@@ -94,37 +94,10 @@ export function createEffectsView(layer, frame) {
     ]);
   }
 
-  function barrier({ x, y, facing }) {
-    const anchor = spawn('barrier', { x, y }, facing);
-    const wall = document.createElement('div');
-    wall.className = 'barrier-wall';
-    anchor.append(wall);
-
-    // Fade the wall, not its anchor: opacity on the anchor would flatten the 3D wall inside it.
-    return showThenRemove(
-      anchor,
-      flare(
-        wall,
-        [
-          { opacity: 0 },
-          { opacity: 1, offset: 0.15 },
-          { opacity: 0.85, offset: 0.5 },
-          { opacity: 0 },
-        ],
-        { duration: 620, easing: 'ease-out' },
-      ),
-    );
-  }
-
   function render(result) {
-    switch (result.type) {
-      case 'ATTACKED':
-        return attack(result);
-      case 'BLOCKED':
-        return barrier(result);
-      default:
-        return Promise.resolve();
-    }
+    if (result.type === 'ATTACKED') return attack(result);
+
+    return Promise.resolve();
   }
 
   return { render };
