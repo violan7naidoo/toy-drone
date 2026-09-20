@@ -9,6 +9,7 @@ import { bindTouchControls } from './input/touchControls.js';
 import { bindKeyboard } from './input/keyboard.js';
 import { bindPlacement } from './input/placement.js';
 import { bindConsole } from './input/console.js';
+import { createHudView } from './view/hudView.js';
 
 const frame = document.querySelector('#board-frame');
 frame.style.setProperty('--size', BOARD_SIZE);
@@ -17,13 +18,23 @@ createBoard(document.querySelector('#board'));
 
 const simulator = createSimulator();
 const droneView = createDroneView(document.querySelector('#board-layer'));
+const hudView = createHudView({
+  status: document.querySelector('#status'),
+  pad: document.querySelector('#pad'),
+});
 
 const queue = createCommandQueue(async (command) => {
   const result = simulator.execute(command);
   if (import.meta.env.DEV) console.log(command.type, result);
-  await droneView.render(result);
+
+  await Promise.all([
+    droneView.render(result),
+    hudView.render(result, simulator.getState()),
+  ]);
+
   return result;
 });
+
 
 
 function dispatch(command) {
