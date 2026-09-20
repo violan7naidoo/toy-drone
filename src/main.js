@@ -8,6 +8,7 @@ import { createCommandQueue } from './commandQueue.js';
 import { bindTouchControls } from './input/touchControls.js';
 import { bindKeyboard } from './input/keyboard.js';
 import { bindPlacement } from './input/placement.js';
+import { bindConsole } from './input/console.js';
 
 const frame = document.querySelector('#board-frame');
 frame.style.setProperty('--size', BOARD_SIZE);
@@ -39,6 +40,16 @@ bindPlacement(
   },
   dispatch,
 );
+
+bindConsole(
+  {
+    form: document.querySelector('#console'),
+    input: document.querySelector('#console-input'),
+    output: document.querySelector('#console-output'),
+  },
+  dispatch,
+);
+
 
 if (import.meta.env.DEV) {
   window.dispatch = dispatch;

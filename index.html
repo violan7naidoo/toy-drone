@@ -43,6 +43,21 @@
           <button type="button" class="pad-button pad-button-wide" data-command="ATTACK">Attack</button>
           <button type="button" class="pad-button pad-button-wide" data-command="REPORT">Report</button>
         </div>
+                <form id="console" class="console">
+          <label class="console-label" for="console-input">Commands</label>
+          <textarea
+            id="console-input"
+            class="console-input"
+            rows="2"
+            spellcheck="false"
+            autocomplete="off"
+            autocapitalize="characters"
+            placeholder="PLACE 1,2,EAST"
+          ></textarea>
+          <button type="submit" class="pad-button console-run">Run</button>
+          <p id="console-output" class="console-output" aria-live="polite"></p>
+        </form>
+
       </section>
 
     </main>
