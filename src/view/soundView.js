@@ -1,8 +1,9 @@
 import { SHOT_MS } from '../config.js';
 
 const VOLUME = 0.5;
-const HUM_LEVEL = 0.045;
-const HUM_FREQUENCY = 96;
+const HUM_LEVEL = 0.08;
+const HUM_FREQUENCY = 138;
+const HUM_FLUTTER_HZ = 24;
 const HUM_RATIOS = [1, 1.012, 2.005];
 const SILENT = 0.0001;
 
@@ -11,6 +12,7 @@ export function createSoundView() {
   let master = null;
   let hum = null;
   let muted = false;
+  let placed = false;
 
   function unlock() {
     if (!context) {
@@ -21,14 +23,17 @@ export function createSoundView() {
       master = context.createGain();
       master.gain.value = muted ? 0 : VOLUME;
       master.connect(context.destination);
+      context.addEventListener('statechange', syncHum);
     }
 
     if (context.state === 'suspended' && !document.hidden) context.resume();
   }
 
-  // Browsers only allow audio to start from a real tap or key press, so the context is created there.
-  window.addEventListener('pointerdown', unlock, { capture: true });
-  window.addEventListener('keydown', unlock, { capture: true });
+  // Browsers only let audio start from a real gesture. For touch that is the release, not the press,
+  // so listen for the events that count: pointerup and touchend as well as mousedown and keydown.
+  ['pointerup', 'touchend', 'mousedown', 'keydown'].forEach((type) => {
+    window.addEventListener(type, unlock, { capture: true });
+  });
 
   document.addEventListener('visibilitychange', () => {
     if (!context) return;
@@ -81,6 +86,10 @@ export function createSoundView() {
     source.start(start);
   }
 
+  function syncHum() {
+    if (placed && context && context.state === 'running') startHum();
+  }
+
   function startHum() {
     if (hum) return;
 
@@ -88,7 +97,7 @@ export function createSoundView() {
     const gain = context.createGain();
 
     filter.type = 'lowpass';
-    filter.frequency.value = 520;
+    filter.frequency.value = 900;
     gain.gain.setValueAtTime(SILENT, context.currentTime);
     gain.gain.exponentialRampToValueAtTime(HUM_LEVEL, context.currentTime + 0.6);
 
@@ -100,6 +109,13 @@ export function createSoundView() {
       oscillator.start();
       return oscillator;
     });
+
+    const flutter = context.createOscillator();
+    const flutterDepth = context.createGain();
+    flutter.frequency.value = HUM_FLUTTER_HZ;
+    flutterDepth.gain.value = HUM_LEVEL * 0.35;
+    flutter.connect(flutterDepth).connect(gain.gain);
+    flutter.start();
 
     filter.connect(gain).connect(master);
     hum = { oscillators };
@@ -123,7 +139,6 @@ export function createSoundView() {
 
     switch (result.type) {
       case 'PLACED':
-        startHum();
         tone({ type: 'triangle', from: 220, to: 660, peak: 0.16, duration: 0.3 });
         break;
       case 'MOVED':
@@ -154,7 +169,10 @@ export function createSoundView() {
     }
   }
 
-  function render(result) {
+  function render(result, state) {
+    placed = state.placed;
+    syncHum();
+
     if (context && context.state === 'running') play(result);
 
     return Promise.resolve();

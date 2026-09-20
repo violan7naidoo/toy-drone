@@ -34,7 +34,7 @@ const queue = createCommandQueue(async (command) => {
     droneView.render(result),
     effectsView.render(result),
     hudView.render(result, simulator.getState()),
-    soundView.render(result),
+    soundView.render(result, simulator.getState()),
   ]);
 
   return result;
