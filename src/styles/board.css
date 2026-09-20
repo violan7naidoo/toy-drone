@@ -1,0 +1,48 @@
+.board-frame {
+  position: relative;
+  width: 100cqmin;
+  aspect-ratio: 1;
+}
+
+.board {
+  width: 100%;
+  height: 100%;
+  display: grid;
+  grid-template-columns: repeat(var(--size), minmax(0, 1fr));
+  grid-template-rows: repeat(var(--size), minmax(0, 1fr));
+  gap: var(--cell-gap);
+  padding: var(--cell-gap);
+  background: var(--color-line);
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+
+.board-layer {
+  position: absolute;
+  inset: var(--cell-gap);
+  pointer-events: none;
+}
+
+.cell {
+  display: grid;
+  place-items: center;
+  background: var(--color-surface);
+  color: var(--color-text-muted);
+  font-size: clamp(8px, 2.2cqmin, 16px);
+  font-variant-numeric: tabular-nums;
+  user-select: none;
+  cursor: pointer;
+  touch-action: manipulation;
+}
+
+.cell.is-selected {
+  outline: 2px solid var(--color-accent);
+  outline-offset: -2px;
+  color: var(--color-text);
+}
+
+@media (hover: hover) {
+  .cell:hover {
+    background: var(--color-line);
+  }
+}

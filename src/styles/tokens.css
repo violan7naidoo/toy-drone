@@ -1,0 +1,19 @@
+:root {
+  --color-bg: #050b14;
+  --color-surface: #0a1626;
+  --color-line: #1d5f7a;
+  --color-text: #d9f4ff;
+  --color-text-muted: #6f9fb5;
+  --color-accent: #39d5ff;
+  --color-hot: #ff5fd2;
+
+  --gap: 16px;
+  --radius: 12px;
+  --cell-gap: 2px;
+
+  --move-time: 320ms;
+  --turn-time: 260ms;
+  --shot-time: 220ms;
+
+  color-scheme: dark;
+}
