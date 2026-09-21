@@ -10,8 +10,7 @@
     "build": "vite build",
     "preview": "vite preview",
     "test": "vitest run",
-    "test:watch": "vitest",
-    "zip": "git archive --format=zip --prefix=toy-drone/ -o public/toy-drone-source.zip HEAD"
+    "test:watch": "vitest"
   },
   "devDependencies": {
     "vite": "^8.3.0",
