@@ -29,3 +29,6 @@ dist-ssr
 blueprint/
 CLAUDE.md
 AGENTS.md
+
+# Copied from the root README at dev and build time
+public/README.md

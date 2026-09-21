@@ -18,6 +18,7 @@ function isButton(element) {
 export function bindKeyboard(target, dispatch) {
   target.addEventListener('keydown', (event) => {
     if (event.repeat || event.ctrlKey || event.metaKey || event.altKey) return;
+    if (document.querySelector('dialog[open]')) return;
     if (!(event.target instanceof Element)) return;
     if (isTyping(event.target)) return;
 

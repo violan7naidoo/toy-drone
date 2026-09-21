@@ -45,6 +45,16 @@
           </button>
           <button
             type="button"
+            id="info-toggle"
+            class="tool-button"
+            aria-haspopup="dialog"
+            aria-label="About this project"
+            title="About this project: README and source"
+          >
+            i
+          </button>
+          <button
+            type="button"
             id="console-toggle"
             class="tool-button console-toggle"
             aria-expanded="false"
@@ -109,6 +119,74 @@
         </form>
       </section>
     </main>
+
+    <dialog id="info" class="info" aria-labelledby="info-title">
+      <div class="info-body">
+        <form method="dialog" class="info-head">
+          <h1 id="info-title">Toy Drone</h1>
+          <button class="tool-button" aria-label="Close">&#10005;</button>
+        </form>
+
+        <p>
+          A toy drone simulation on a 10 x 10 holographic test range, built with vanilla JavaScript for
+          the Stormcraft Studios Toy Drone Assessment.
+        </p>
+
+        <section>
+          <h2>Built by</h2>
+          <p>
+            <strong>Violan Naidoo</strong><br />
+            <a href="mailto:violan7naidoo@gmail.com">violan7naidoo@gmail.com</a><br />
+            <a href="https://www.linkedin.com/in/violan-naidoo/" target="_blank" rel="noopener">LinkedIn</a>
+          </p>
+        </section>
+
+        <section>
+          <h2>README and source</h2>
+          <ul class="info-links">
+            <li>
+              <a href="https://github.com/violan7naidoo/toy-drone#readme" target="_blank" rel="noopener">
+                Read the README
+              </a>
+            </li>
+            <li><a href="./toy-drone-source.zip" download>Download the source code (.zip)</a></li>
+            <li>
+              <a href="https://github.com/violan7naidoo/toy-drone" target="_blank" rel="noopener">
+                View the repository on GitHub
+              </a>
+            </li>
+          </ul>
+          <p>The README is also here as <a href="./README.md" target="_blank" rel="noopener">plain text</a>.</p>
+        </section>
+
+        <section>
+          <h2>Controls</h2>
+          <dl class="info-controls">
+            <dt>Tap a cell</dt>
+            <dd>Place the drone, then choose N, E, S or W</dd>
+            <dt>Arrow Up</dt>
+            <dd>Move one cell forward</dd>
+            <dt>Arrow Left / Right</dt>
+            <dd>Turn 90 degrees</dd>
+            <dt>Space</dt>
+            <dd>Attack two cells ahead</dd>
+            <dt>R</dt>
+            <dd>Report the position</dd>
+            <dt>&gt;_</dt>
+            <dd>Type or paste commands, one per line</dd>
+          </dl>
+        </section>
+
+        <section>
+          <h2>About example (a) in the brief</h2>
+          <p>
+            The brief prints <strong>0,0,SOUTH</strong>. By its own rules the answer is
+            <strong>0,1,SOUTH</strong>: MOVE takes the drone to 0,1, the two LEFT turns do not move it, and the
+            ATTACK is ignored because only one cell lies to the south. This build follows the written rules.
+          </p>
+        </section>
+      </div>
+    </dialog>
 
     <script type="module" src="/src/main.js"></script>
   </body>

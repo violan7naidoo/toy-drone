@@ -9,6 +9,7 @@ import { createEffectsView } from './view/effectsView.js';
 import { createHudView } from './view/hudView.js';
 import { createSoundView } from './view/soundView.js';
 import { bindConsole } from './input/console.js';
+import { bindInfoPanel } from './input/infoPanel.js';
 import { bindKeyboard } from './input/keyboard.js';
 import { bindPlacement } from './input/placement.js';
 import { bindToggle } from './input/preferences.js';
@@ -65,6 +66,8 @@ bindConsole(
   },
   dispatch,
 );
+
+bindInfoPanel({ button: $('#info-toggle'), dialog: $('#info') });
 
 bindToggle({
   button: $('#view-toggle'),

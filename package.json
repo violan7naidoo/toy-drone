@@ -4,11 +4,14 @@
   "private": true,
   "type": "module",
   "scripts": {
+    "predev": "node scripts/copy-readme.mjs",
     "dev": "vite",
+    "prebuild": "node scripts/copy-readme.mjs",
     "build": "vite build",
     "preview": "vite preview",
     "test": "vitest run",
-    "test:watch": "vitest"
+    "test:watch": "vitest",
+    "zip": "git archive --format=zip --prefix=toy-drone/ -o public/toy-drone-source.zip HEAD"
   },
   "devDependencies": {
     "vite": "^8.3.0",
