@@ -23,12 +23,5 @@ dist-ssr
 *.sln
 *.sw?
 
-# Local tooling, not part of the project
-.claude/
-.kilo/
-blueprint/
-CLAUDE.md
-AGENTS.md
-
 # Copied from the root README at dev and build time
 public/README.md
