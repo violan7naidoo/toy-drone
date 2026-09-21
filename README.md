@@ -5,6 +5,7 @@
 **Violan Naidoo**
 
 - Email: violan7naidoo@gmail.com
+- Phone: 084 014 1996
 - LinkedIn: https://www.linkedin.com/in/violan-naidoo/
 - GitHub: https://github.com/violan7naidoo
 
