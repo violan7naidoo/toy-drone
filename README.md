@@ -2,8 +2,9 @@
 
 A toy drone simulation on a 10 x 10 holographic test range, built with vanilla JavaScript for the Stormcraft Studios Toy Drone Assessment.
 
-- **Play it:** https://toy-drone.vercel.app/
-- **Source (.zip):** https://toy-drone.vercel.app/toy-drone-source.zip
+- **Play it:** https://getviolanonboard.co.za/
+- **Mirror:** https://toy-drone.vercel.app/ (the same deployment, in case the custom domain is unreachable)
+- **Source (.zip):** https://getviolanonboard.co.za/toy-drone-source.zip
 - **Repository:** https://github.com/violan7naidoo/toy-drone
 
 ## About me
