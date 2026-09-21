@@ -21,8 +21,7 @@ This is my submission for the Stormcraft Studios Toy Drone Assessment: a toy dro
 
 **Links**
 
-- Play the game: https://getviolanonboard.co.za/
-- Same game on Vercel: https://toy-drone.vercel.app/
+- Play the game: https://www.getviolanonboard.co.za/
 - Download the source code (.zip): https://github.com/violan7naidoo/toy-drone/archive/refs/heads/main.zip
 - Repository: https://github.com/violan7naidoo/toy-drone
 
